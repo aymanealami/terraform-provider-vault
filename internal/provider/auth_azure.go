@@ -143,7 +143,7 @@ func (l *AuthLoginAzure) Login(client *api.Client) (*api.Secret, error) {
 
 	if v, ok := l.params[consts.FieldVMName]; ok {
 		params[consts.FieldVMName] = v
-	} else if v, ok := l.params[consts.FieldVMName]; ok {
+	} else if v, ok := l.params[consts.FieldVMSSName]; ok {
 		params[consts.FieldVMSSName] = v
 	}
 

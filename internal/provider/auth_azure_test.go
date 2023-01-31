@@ -212,13 +212,47 @@ func TestAuthLoginAzure_Login(t *testing.T) {
 			},
 			expectReqCount:     1,
 			expectReqPaths:     []string{"/v1/auth/azure/login"},
-			skipCheckReqParams: true,
+			skipCheckReqParams: false,
 			expectReqParams: []map[string]interface{}{
 				{
 					consts.FieldRole:              "alice",
 					consts.FieldJWT:               "jwt1",
 					consts.FieldSubscriptionID:    "sub1",
 					consts.FieldResourceGroupName: "res1",
+					consts.FieldVMSSName:          "vmss1",
+				},
+			},
+			want:    &api.Secret{},
+			wantErr: false,
+		},
+		{
+			name: "auth-with-jwt",
+			authLogin: &AuthLoginAzure{
+				AuthLoginCommon: AuthLoginCommon{
+					authField: consts.FieldAuthLoginAzure,
+					params: map[string]interface{}{
+						consts.FieldRole:              "alice",
+						consts.FieldJWT:               "jwt1",
+						consts.FieldSubscriptionID:    "sub1",
+						consts.FieldResourceGroupName: "res1",
+						consts.FieldVMName:            "vm1",
+					},
+					initialized: true,
+				},
+			},
+			handler: &testLoginHandler{
+				handlerFunc: handlerFunc,
+			},
+			expectReqCount:     1,
+			expectReqPaths:     []string{"/v1/auth/azure/login"},
+			skipCheckReqParams: false,
+			expectReqParams: []map[string]interface{}{
+				{
+					consts.FieldRole:              "alice",
+					consts.FieldJWT:               "jwt1",
+					consts.FieldSubscriptionID:    "sub1",
+					consts.FieldResourceGroupName: "res1",
+					consts.FieldVMName:            "vm1",
 				},
 			},
 			want:    &api.Secret{},
